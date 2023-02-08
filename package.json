@@ -1,0 +1,28 @@
+{
+  "name": "codeigniter3-authentication-typography",
+  "version": "1.0.0",
+  "description": "codeigniter 3 with authentication and typography",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryumada/codeigniter3-authentication-typography.git"
+  },
+  "keywords": [
+    "php",
+    "codeigniter3",
+    "ckeditor",
+    "ckfinder"
+  ],
+  "author": "ryumada",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ryumada/codeigniter3-authentication-typography/issues"
+  },
+  "homepage": "https://github.com/ryumada/codeigniter3-authentication-typography#readme",
+  "dependencies": {
+    "bootstrap": "^5.3.0-alpha1"
+  }
+}
