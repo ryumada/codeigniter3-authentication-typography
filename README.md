@@ -70,6 +70,10 @@ sudo nginx -t
 sudo systemctl restart nginx
 ```
 
+> For deployment, please read these:
+> - https://codeigniter.com/userguide3/general/security.html
+> - https://codeigniter.com/userguide3/installation/index.html
+
 ---
 
 Copyright © 2023 ryumada. All Rights Reserved.
