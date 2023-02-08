@@ -6,12 +6,10 @@ class Login extends CI_Controller {
 
 	public function index()
 	{
-		$data = array(
-			"pageinfo" => array(
-				"title" => "Login"
-			)
-			);
-
+		$data["pageinfo"] = array(
+			"title" => "Login"
+		);
+		$data["load_view"] = "login/login";
 		$this->load->view("app", $data);
 	}
 
