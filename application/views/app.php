@@ -49,8 +49,15 @@
 		</div>
 	</nav>
 
-	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>
+	<main class="container-fluid">
+		<?php $this->load->view($load_view) ?>
+	</main>
 
+	<footer class="footer mt-auto py-1">
+		<div class="container-fluid px-2 text-center">
+			<span class="text-muted">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></span>
+		</div>
+	</footer>
 	<script src="<?= base_url('assets/bootstrap/js/bootstrap.bundle.min.js');?>""></script>
 	<script>
 		const darkModeSwitch = document.getElementById("darkModeSwitch");
