@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="light">
+
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
+
 	<title><?= $pageinfo['title'] ?></title>
 
 	<link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-	<link rel="stylesheet" media="screen, print" href="<?= base_url('assets/bootstrap/css/bootstrap.min.css');?>">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
+
 <body>
 	<nav class="navbar navbar-expand-lg bg-body-tertiary">
 		<div class="container-fluid">
@@ -32,7 +34,9 @@
 						<ul class="dropdown-menu">
 							<li><a class="dropdown-item" href="#">Action</a></li>
 							<li><a class="dropdown-item" href="#">Another action</a></li>
-							<li><hr class="dropdown-divider"></li>
+							<li>
+								<hr class="dropdown-divider">
+							</li>
 							<li><a class="dropdown-item" href="#">Something else here</a></li>
 						</ul>
 					</li>
@@ -55,23 +59,27 @@
 
 	<footer class="footer mt-auto py-1">
 		<div class="container-fluid px-2 text-center">
-			<span class="text-muted">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></span>
-			<?php if(ENVIRONMENT === 'development'): ?>
+			<span class="text-muted">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php echo (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></span>
+			<?php if (ENVIRONMENT === 'development') : ?>
 				<p class="text-muted">Memory Consumption: {memory_usage}</p>
 			<?php endif; ?>
 		</div>
 	</footer>
-	<script src="<?= base_url('assets/bootstrap/js/bootstrap.bundle.min.js');?>""></script>
+	<script src="<?= base_url('assets/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
 	<script>
 		const darkModeSwitch = document.getElementById("darkModeSwitch");
 		darkModeSwitch.addEventListener("input", () => {
-			if (darkModeSwitch.checked === true)
-			{
+			if (darkModeSwitch.checked === true) {
 				document.documentElement.setAttribute("data-bs-theme", "dark");
 			} else {
 				document.documentElement.setAttribute("data-bs-theme", "light");
 			}
 		})
 	</script>
+
+	<?php foreach ($load_scripts as $load_script) : ?>
+		<?php $this->load->view($load_script); ?>
+	<?php endforeach; ?>
+
 </body>
 </html>
