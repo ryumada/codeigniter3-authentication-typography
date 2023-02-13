@@ -33,3 +33,6 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 
 # node modules
 node_modules
+
+# Linux directory config file
+.directory
