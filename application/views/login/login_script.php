@@ -23,12 +23,20 @@
 		const pristineValidator = new Pristine(e.target, validatorConfig);
 		if (pristineValidator.validate()) {
 			const formData = new FormData(e.target);
+			// view data of formData
 			for (const [key, value] of formData.entries()) {
 				console.log(`${key}: ${value}`);
 			}
-			console.log('done');
-			return false;
+
+			const xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = () => {
+				document.querySelector('main').innerHTML = xhttp.response;
+			}
+			xhttp.open("POST", "<?= base_url() ?>login/do_login", true);
+			xhttp.setRequestHeader("Http-X-Is-Ajax", "true");
+			xhttp.send(formData);
+
+			// console.log('done');
 		}
-		console.log('pristine done');
 	});
 </script>
