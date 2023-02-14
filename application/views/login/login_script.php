@@ -17,10 +17,12 @@
 	}
 </script>
 <script>
-	document.getElementById('loginForm').addEventListener('submit', (e) => {
+	const formElement = document.getElementById('loginForm');
+	const pristineValidator = new Pristine(formElement, validatorConfig);
+
+	formElement.addEventListener('submit', (e) => {
 		e.preventDefault();
 
-		const pristineValidator = new Pristine(e.target, validatorConfig);
 		if (pristineValidator.validate()) {
 			const formData = new FormData(e.target);
 			// view data of formData
@@ -28,15 +30,15 @@
 				console.log(`${key}: ${value}`);
 			}
 
-			const xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = () => {
-				document.querySelector('main').innerHTML = xhttp.response;
-			}
-			xhttp.open("POST", "<?= base_url() ?>login/do_login", true);
-			xhttp.setRequestHeader("Http-X-Is-Ajax", "true");
-			xhttp.send(formData);
+			// const xhttp = new XMLHttpRequest();
+			// xhttp.onreadystatechange = () => {
+			// 	document.querySelector('main').innerHTML = xhttp.response;
+			// }
+			// xhttp.open("POST", "<?= base_url() ?>login/do_login", true);
+			// xhttp.setRequestHeader("Http-X-Is-Ajax", "true");
+			// xhttp.send(formData);
 
-			// console.log('done');
+			formElement.submit();
 		}
 	});
 </script>

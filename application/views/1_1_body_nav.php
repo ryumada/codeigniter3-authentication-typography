@@ -30,11 +30,4 @@
 						<a class="nav-link disabled">Disabled</a>
 					</li>
 				</ul>
-				<form class="d-flex">
-					<div class="form-check form-switch">
-						<input class="form-check-input" type="checkbox" role="switch" id="darkModeSwitch">
-					</div>
-				</form>
-			</div>
-		</div>
-	</nav>
+<!-- Add Content of navbar below this -->
