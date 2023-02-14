@@ -8,19 +8,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @property CI_Input 									$input			The Input CI
  * @property CI_Output 									$output			The output CI
  */
-class Dashboard extends CI_Controller
+class Dashboard extends Authenticated_controller
 {
 	protected $titlepage = "Dashboard";
-	public $data = [];
-	
-	public function __construct()
-	{
-		parent::__construct();
-		$this->load->add_package_path(APPPATH . 'third_party/ion_auth/');
-		$this->load->library('ion_auth');
-		($this->ion_auth->logged_in()) ? "" : redirect('/login');
-		$this->data['user'] = $this->ion_auth->users()->result()[0];
-	}
 	
 	public function index()
 	{
@@ -33,7 +23,7 @@ class Dashboard extends CI_Controller
 				'titlepage' => $this->titlepage
 			));
 			$this->load->view('1_1_body_nav');
-			$this->load->view('components/navbar_profile', ["email" => $this->data['user']->email]);
+			$this->load->view('components/navbar_profile', ["email" => $this->data->user->email]);
 			$this->load->view('1_2_body_nav');
 			$this->load->view('2_body_main_top');
 			// insert main content here

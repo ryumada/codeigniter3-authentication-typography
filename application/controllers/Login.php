@@ -111,7 +111,7 @@ class Login extends CI_Controller {
 			'titlepage' => $this->titlepage
 		));
 		$this->load->view('1_1_body_nav');
-		// TODO: if login add $this->load->view('components/navbar_profile');
+		// tempat untuk navbar profile.php
 		$this->load->view('1_2_body_nav');
 		$this->load->view('2_body_main_top');
 		// insert main content here
