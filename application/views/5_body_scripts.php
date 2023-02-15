@@ -1,4 +1,5 @@
 <script src="<?= base_url('assets/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
+<script src="<?= base_url('assets/router/main-router.js'); ?>"></script>
 <script>
 	const darkModeSwitch = document.getElementById("darkModeSwitch");
 	darkModeSwitch.addEventListener("input", () => {
