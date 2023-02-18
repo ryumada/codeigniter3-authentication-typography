@@ -11,3 +11,17 @@
 		</div>
 	</div>
 </div>
+<div class="row">
+	<div class="col">
+		<div class="ckeditor">
+			<p>This is some sample.</p>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col">
+		<div class="ckeditor">
+			<p>This is another sample.</p>
+		</div>
+	</div>
+</div>

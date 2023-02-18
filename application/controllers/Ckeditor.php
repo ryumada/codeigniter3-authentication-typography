@@ -13,7 +13,11 @@ class Ckeditor extends Authenticated_controller {
 			$this->output->set_status_header(200, "success");
 			
 			$this->data->response = new stdClass();
-			$this->data->response->html = $this->load->view('ckeditor/ckeditor', "", true);
+			$this->data->response->html = $this->load->view('ckeditor/view', "", true);
+			$this->data->response->scripts = array(
+				base_url('node_modules/@ckeditor/ckeditor5-build-classic/build/ckeditor.js'),
+				base_url('assets/app-scripts/ckeditor/script.js')
+			);
 			$this->data->response->titlepage = $this->titlepage;
 			$this->data->response->urlreferer = $this->input->get_request_header('Referer');
 			$this->data->response->urlpath = current_url() . ($_SERVER['QUERY_STRING'] ? "?" . $_SERVER['QUERY_STRING'] : "");
@@ -27,11 +31,12 @@ class Ckeditor extends Authenticated_controller {
 			$this->load->view('1_2_body_nav');
 			$this->load->view('2_body_main_top');
 			// insert main content here
-			$this->load->view('ckeditor/ckeditor');
+			$this->load->view('ckeditor/view');
 			$this->load->view('3_body_main_bottom');
 			$this->load->view('4_body_footer');
 			$this->load->view('5_body_scripts');
 			// insert inline scripts
+			$this->load->view('ckeditor/scripts');
 			$this->load->view('6_body_close');
 		}
 	}
