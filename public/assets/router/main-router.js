@@ -1,8 +1,11 @@
+/**
+ * Main Router for going through pages.
+ */
+
 const ANCHORMAINROUTERCLASS = 'main-router';
 const MAINCONTENTID = 'mainContent';
 const MAINCONTENTSCRIPTCLASS = 'mainContentScript';
 
-// Main Router for going through pages.
 document.body.addEventListener('click', event => {
 	if (!event.target.className.match(`${ANCHORMAINROUTERCLASS}`)) {
 		return true;
@@ -49,7 +52,7 @@ window.onpopstate = (e) => {
 			mainContent.innerHTML = e.state.html;
 			if (e.state.init_script_index) {
 				window['INITSCRIPTNAME'] = e.state.init_script_index;
-				window[`${window['INITSCRIPTNAME']}`]();
+				runInitScript();
 			} else {
 				delete window['INITSCRIPTNAME'];
 			}
@@ -79,7 +82,6 @@ const bringNewPartOfPage = (xhttpResponse) => {
 
 	mainContent.innerHTML = (response.html) ? response.html : "";
 
-	// add history new state to the browser history
 	addNewDocumentStateToWindowHistory(response);
 
 	document.title = response.titlepage;
@@ -92,11 +94,8 @@ const bringNewPartOfPage = (xhttpResponse) => {
  */
 const addCurrentDocumentStateToWindowHistory = (mainContent) => {
 	try {
-		window.history.replaceState({
-			"html": ((mainContent.innerHTML) ? mainContent.innerHTML : ""),
-			"init_script_index": window['INITSCRIPTNAME'],
-			"titlepage": document.title
-		},
+		window.history.replaceState(
+			createHistoryStateObject(mainContent.innerHTML, window['INITSCRIPTNAME'], document.title),
 			"",
 			document.URL
 		)
@@ -111,11 +110,8 @@ const addCurrentDocumentStateToWindowHistory = (mainContent) => {
  */
 const addNewDocumentStateToWindowHistory = (response) => {
 	try {
-		window.history.pushState({
-			"html": (response.html) ? response.html : "",
-			"init_script_index": response.init_script_index,
-			"titlepage": response.titlepage,
-		},
+		window.history.pushState(
+			createHistoryStateObject(response.html, response.init_script_index, response.titlepage),
 			"",
 			response.urlpath
 		);
@@ -124,6 +120,29 @@ const addNewDocumentStateToWindowHistory = (response) => {
 	}
 }
 
+/**
+ * A function to create History State Object.
+ * 
+ * @param {String} html Html string to save the view state.
+ * @param {*} init_script_index The init script index for init script.
+ * @param {*} titlepage The title of the page.
+ * @returns {Object} Generated HistoryStateObject
+ */
+const createHistoryStateObject = (html, init_script_index, titlepage) => {
+	return {
+		"html": html,
+		"init_script_index": init_script_index,
+		"titlepage": titlepage
+	}
+}
+
+/**
+ * A function to create script element and append it to document's body
+ * and it will be trigger initscript function.
+ * 
+ * @param {String}	src					The source URL.
+ * @param {*} 			initScript	Is the script element is init script?.
+ */
 const createScriptElement = (src, initScript = false) => {
 	// If the script has been injected
 	if (document.querySelector(`script[src="${src}"]`) === null) {
@@ -134,48 +153,15 @@ const createScriptElement = (src, initScript = false) => {
 		
 		if (initScript) {
 			scriptElement.addEventListener('load', () => {
-					window[`${window['INITSCRIPTNAME']}`]();
+					runInitScript();
 			});
 		}
 
 		document.body.appendChild(scriptElement);
 	} else {
 		if (initScript) {
-				window[`${window['INITSCRIPTNAME']}`]();
+				runInitScript();
 		}
-	}
-}
-
-/**
- * Delete injected main content scripts
- * 
- * @param {Iterable}	scriptElements	Taken from `document.querySeletorAll(`script.${MAINCONTENTSCRIPT}`);`
- */
-const deleteInjectedMainScriptContents = (scriptElements) => {
-	try {
-		scriptElements.forEach((scriptElement) => {
-			scriptElement.remove();
-		});
-	} catch (error) {
-		showToast({ msg: 'deleteInjectedMainScriptContents error.' });
-	}
-}
-
-/**
- * Create an Array of src scripts from script elements.
- * 
- * @param {Iterable} scriptElements Taken from `document.querySeletorAll(`script.${MAINCONTENTSCRIPT}`);`
- * @returns {Array} An array of src scripts.
- */
-const createScriptsSrcArrayFromScriptElements = (scriptElements) => {
-	try {
-		const srcScripts = new Array();
-		scriptElements.forEach((scriptElement) => {
-			srcScripts.push(scriptElement.getAttribute('src'));
-		});
-		return srcScripts;
-	} catch (error) {
-		showToast({ msg: 'createScriptsSrcArrayFromScriptElements error.' });
 	}
 }
 
@@ -198,4 +184,11 @@ const injectMainScriptContents = (responseScripts) => {
 	} catch (error) {
 		showToast({ msg: 'injectMainScriptContents error.' });
 	}
+}
+
+/**
+ * A function to run init script.
+ */
+const runInitScript = () => {
+	window[`${window['INITSCRIPTNAME']}`]();
 }
