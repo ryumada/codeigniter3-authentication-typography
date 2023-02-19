@@ -12,14 +12,25 @@ document.body.addEventListener('click', event => {
 	const element = event.target;
 
 	try {
-		const xhttp = new XMLHttpRequest();
-		xhttp.addEventListener('error', (e) => {
-			showToast({ title: 'Main Router Error?!', msg: 'Error while routing to the main content' });
-		});
-		xhttp.addEventListener('load', bringNewPartOfPage);
-		xhttp.open('GET', element.getAttribute('href'), true);
-		xhttp.setRequestHeader('Http-X-Is-Ajax', 'true');
-		xhttp.send();
+		(async () => {
+			const xhttpResponse = await new Promise(resolve => {
+				const xhttp = new XMLHttpRequest();
+				xhttp.addEventListener('error', () => {
+					resolve(false);
+				});
+				xhttp.addEventListener('load', (event) => {
+					resolve(event.target.response);
+				});
+				xhttp.open('GET', element.getAttribute('href'), true);
+				xhttp.setRequestHeader('Http-X-Is-Ajax', 'true');
+				xhttp.send();
+			});
+			if(!xhttpResponse) {
+				showToast({ title: 'Main Router Error?!', msg: 'Error while routing to the main content' });
+				return false;
+			}
+			bringNewPartOfPage(xhttpResponse);
+		})();
 	} catch (error) {
 		showToast({ msg: 'xhttp error' });
 	}
@@ -36,7 +47,12 @@ window.onpopstate = (e) => {
 
 		try {
 			mainContent.innerHTML = e.state.html;
-			injectMainScriptContents(e.state.scripts);
+			if (e.state.init_script_index) {
+				window['INITSCRIPTNAME'] = e.state.init_script_index;
+				window[`${window['INITSCRIPTNAME']}`]();
+			} else {
+				delete window['INITSCRIPTNAME'];
+			}
 			document.title = e.state.titlepage;
 		} catch (error) {
 			showToast({ msg: `Back/Forth function error?!` })
@@ -49,16 +65,16 @@ window.onpopstate = (e) => {
  * 
  * @param {*} event taken from `xhttp.addEventListener('load', bringNewPartOfPage);`
  */
-const bringNewPartOfPage = (event) => {
-	const response = JSON.parse(event.target.response);
+const bringNewPartOfPage = (xhttpResponse) => {
+	const response = JSON.parse(xhttpResponse);
 	const mainContent = document.querySelector(`#${MAINCONTENTID}`);
-	const scriptElements = document.querySelectorAll(`script.${MAINCONTENTSCRIPTCLASS}`);
+	
+	window['INITSCRIPTNAME'] = response.init_script_index;
 
 	if (window.history.state === null) {
 		addCurrentDocumentStateToWindowHistory(mainContent);
 	}
 
-	deleteInjectedMainScriptContents(scriptElements);
 	injectMainScriptContents(response.scripts);
 
 	mainContent.innerHTML = (response.html) ? response.html : "";
@@ -78,7 +94,7 @@ const addCurrentDocumentStateToWindowHistory = (mainContent) => {
 	try {
 		window.history.replaceState({
 			"html": ((mainContent.innerHTML) ? mainContent.innerHTML : ""),
-			"scripts": createScriptsSrcArrayFromScriptElements(scriptElements),
+			"init_script_index": window['INITSCRIPTNAME'],
 			"titlepage": document.title
 		},
 			"",
@@ -86,7 +102,6 @@ const addCurrentDocumentStateToWindowHistory = (mainContent) => {
 		)
 	} catch (error) {
 		showToast({ msg: 'addCurrentDocumentStateToWindowHistory error.'});
-		console.log(error);
 	}
 }
 
@@ -98,7 +113,7 @@ const addNewDocumentStateToWindowHistory = (response) => {
 	try {
 		window.history.pushState({
 			"html": (response.html) ? response.html : "",
-			"scripts": response.scripts,
+			"init_script_index": response.init_script_index,
 			"titlepage": response.titlepage,
 		},
 			"",
@@ -106,7 +121,28 @@ const addNewDocumentStateToWindowHistory = (response) => {
 		);
 	} catch (error) {
 		showToast({ msg: "addNewDocumentStateToWindowHistory error." });
-		console.log(error);
+	}
+}
+
+const createScriptElement = (src, initScript = false) => {
+	// If the script has been injected
+	if (document.querySelector(`script[src="${src}"]`) === null) {
+		const scriptElement = document.createElement('script');
+		scriptElement.setAttribute('class', MAINCONTENTSCRIPTCLASS)
+		scriptElement.setAttribute('type', 'text/javascript');
+		scriptElement.setAttribute('src', src);
+		
+		if (initScript) {
+			scriptElement.addEventListener('load', () => {
+					window[`${window['INITSCRIPTNAME']}`]();
+			});
+		}
+
+		document.body.appendChild(scriptElement);
+	} else {
+		if (initScript) {
+				window[`${window['INITSCRIPTNAME']}`]();
+		}
 	}
 }
 
@@ -150,13 +186,14 @@ const createScriptsSrcArrayFromScriptElements = (scriptElements) => {
  */
 const injectMainScriptContents = (responseScripts) => {
 	try {
-		for (const script of responseScripts) {
-			const scriptElement = document.createElement('script');
-			scriptElement.setAttribute('class', MAINCONTENTSCRIPTCLASS)
-			scriptElement.setAttribute('type', 'text/javascript');
-			scriptElement.setAttribute('src', script);
-
-			document.body.appendChild(scriptElement);
+		if(responseScripts) {
+			for (const script of responseScripts) {
+				if (typeof script === 'object') {
+					createScriptElement(script.src, true)
+				} else {
+					createScriptElement(script)
+				}
+			}
 		}
 	} catch (error) {
 		showToast({ msg: 'injectMainScriptContents error.' });
