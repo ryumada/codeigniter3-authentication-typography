@@ -1,10 +1,15 @@
 /**
  * Main Router for going through pages.
+ * 
+ * Dependecies:
+ *  - showToast taken from application/views/5_body_scripts.php
+ * 
  */
 
 const ANCHORMAINROUTERCLASS = 'main-router';
 const MAINCONTENTID = 'mainContent';
 const MAINCONTENTSCRIPTCLASS = 'mainContentScript';
+const MAINCONTENTSCRIPTLIST = 'scriptList';
 
 document.body.addEventListener('click', event => {
 	if (!event.target.className.match(`${ANCHORMAINROUTERCLASS}`)) {
@@ -173,11 +178,14 @@ const createScriptElement = (src, initScript = false) => {
 const injectMainScriptContents = (responseScripts) => {
 	try {
 		if(responseScripts) {
+			window[MAINCONTENTSCRIPTLIST] = new Array();
 			for (const script of responseScripts) {
 				if (typeof script === 'object') {
-					createScriptElement(script.src, true)
+					window[MAINCONTENTSCRIPTLIST].push(script.src);
+					createScriptElement(script.src, true);
 				} else {
-					createScriptElement(script)
+					window[MAINCONTENTSCRIPTLIST].push(script);
+					createScriptElement(script);
 				}
 			}
 		}
