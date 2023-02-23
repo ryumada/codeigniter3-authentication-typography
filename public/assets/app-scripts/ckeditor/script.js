@@ -4,7 +4,7 @@
  * Inject this init script to window element.
  */
 this.initCkeditorScripts = () => {
-	const editorElements = document.querySelectorAll('.editor');
+	const editorElements = document.querySelectorAll('.ckeditor');
 	console.log(editorElements);
 }
 
@@ -14,3 +14,5 @@ this.initCkeditorScripts = () => {
 	// 		console.log(error);
 	// 	} );
 
+	// TODO: Initialize ckeditor till it can show
+	// TODO: Add CKFinder and connect it to backend

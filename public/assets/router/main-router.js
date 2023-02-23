@@ -78,9 +78,9 @@ const bringNewPartOfPage = (xhttpResponse) => {
 		addCurrentDocumentStateToWindowHistory(mainContent);
 	}
 
-	injectMainScriptContents(response.scripts);
-
 	mainContent.innerHTML = (response.html) ? response.html : "";
+
+	injectMainScriptContents(response.scripts);
 
 	addNewDocumentStateToWindowHistory(response);
 
