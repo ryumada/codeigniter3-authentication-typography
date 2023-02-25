@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Ckeditor extends Authenticated_controller {
 	protected $titlepage = "CKEDITOR";
 
-	protected $plugin_ckeditor_script_path = 'node_modules/@ckeditor/ckeditor5-build-balloon-block/build/ckeditor.js';
+	protected $plugin_ckeditor_script_path = 'assets/ckeditor/ckeditor.js';
 
 	protected $view_ckeditor_path = 'ckeditor/view';
 	

@@ -8,8 +8,8 @@
  * Inject this init script to window element.
  */
 this.initCkeditorScripts = () => {
-	if (document.querySelector(`script[src="${window[`${MAINCONTENTSCRIPTLIST}`][0]}"]`) === null) {
-		document.querySelector('.ckeditor').addEventListener('load', loadCKEDITOR);
+	if (typeof CKSource === 'undefined') {
+		document.querySelector(`script[src="${window[`${MAINCONTENTSCRIPTLIST}`][0]}"]`).addEventListener('load', loadCKEDITOR);
 	} else {
 		loadCKEDITOR();
 	}
@@ -21,12 +21,37 @@ this.initCkeditorScripts = () => {
 function loadCKEDITOR() {
 	const editorElements = document.querySelectorAll('.ckeditor');
 	editorElements.forEach((editorElement => {
-		BalloonEditor
-			.create(editorElement)
-			.catch(error => {
-				showToast({ msg: 'CKEditor could not loaded.' })
-			});
+		const watchdog = new CKSource.EditorWatchdog();
+
+		window.watchdog = watchdog;
+
+		watchdog.setCreator((element, config) => {
+			return CKSource.Editor
+				.create(element, config)
+				.then(editor => {
+					return editor;
+				})
+		});
+
+		watchdog.setDestructor(editor => {
+			return editor.destroy();
+		});
+
+		watchdog.on('error', handleError);
+
+		watchdog
+			.create(editorElement, {
+				licenseKey: '',
+			})
+			.catch(handleError);
 	}));
+}
+
+function handleError(error) {
+	console.error('Oops, something went wrong!');
+	console.error('Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:');
+	console.warn('Build id: 5vee566k1w7v-53kpoe29jnml');
+	console.error(error);
 }
 
 	// ClassicEditor
