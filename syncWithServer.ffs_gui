@@ -1,14 +1,14 @@
 <?xml encoding="utf-8"?>
 <FreeFileSync XmlType="GUI" XmlFormat="17">
     <Compare>
-        <Variant>TimeAndSize</Variant>
+        <Variant>Content</Variant>
         <Symlinks>Exclude</Symlinks>
         <IgnoreTimeShift/>
     </Compare>
     <Synchronize>
-        <Variant>Update</Variant>
+        <Variant>Mirror</Variant>
         <DetectMovedFiles>false</DetectMovedFiles>
-        <DeletionPolicy>RecycleBin</DeletionPolicy>
+        <DeletionPolicy>Permanent</DeletionPolicy>
         <VersioningFolder Style="Replace"/>
     </Synchronize>
     <Filter>
@@ -22,9 +22,12 @@
             <Item>/.gitignore</Item>
             <Item>/.git/</Item>
             <Item>*/.vscode/</Item>
-            <Item>/application/config/database.php</Item>
             <Item>/devdir2depdiv.ffs_gui</Item>
             <Item>/nginx/</Item>
+            <Item>/package-lock.json</Item>
+            <Item>/package.json</Item>
+            <Item>/node_modules/</Item>
+            <Item>*.ffs_gui | *.ffs_batch</Item>
         </Exclude>
         <SizeMin Unit="None">0</SizeMin>
         <SizeMax Unit="None">0</SizeMax>
@@ -41,6 +44,6 @@
     <LogFolder/>
     <EmailNotification Condition="Always"/>
     <Gui>
-        <GridViewType>Action</GridViewType>
+        <GridViewType>Difference</GridViewType>
     </Gui>
 </FreeFileSync>

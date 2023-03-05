@@ -1,6 +1,6 @@
 # CodeIgniter3 Authentication and Typography
 ## Overview
-This repository contains codeigniter 3 souce code with added authentication using [Community Auth](https://community-auth.com/) and some typography plugins. I will list it later, but for my plan I will use this for demonstration:
+This repository contains codeigniter 3 souce code with added authentication using [IonAuth](https://github.com/benedmunds/CodeIgniter-Ion-Auth) and some typography plugins. I will list it later, but for my plan I will use this for demonstration:
 - [CKEDITOR](https://ckeditor.com/) and [CKFINDER]()
 - [tinymce](https://www.tiny.cloud/)
 - [summernote](https://summernote.org/) and [summernote-gallery](https://github.com/eissasoubhi/summernote-gallery)
@@ -20,7 +20,7 @@ git clone <.git_address>
 
 2. Copy this repository into your server directory (`/var/www/ci3-auth-typography`).
 
-see this file [application/config/config.php](application/config/config.php).
+see this file [application/config/config.php](/application/config/config.php).
 
 ```php
 $config['base_url'] = 'http://' . $_SERVER["HTTP_HOST"] . ':81';
@@ -69,6 +69,16 @@ sudo nginx -t
 ```bash
 sudo systemctl restart nginx
 ```
+
+7. Run this SQL to create the database.
+[ci3-ionauth-ckeditor](/sql/ci3-ionauth-ckeditor.sql)
+
+8. Set permission on these folders to be writable by the server:
+    - public/files/ckeditor/images
+
+> For deployment, please read these:
+> - https://codeigniter.com/userguide3/general/security.html
+> - https://codeigniter.com/userguide3/installation/index.html
 
 ---
 

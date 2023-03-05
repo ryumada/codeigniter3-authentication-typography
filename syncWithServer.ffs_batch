@@ -1,0 +1,59 @@
+<?xml encoding="utf-8"?>
+<FreeFileSync XmlType="BATCH" XmlFormat="17">
+    <Compare>
+        <Variant>Content</Variant>
+        <Symlinks>Exclude</Symlinks>
+        <IgnoreTimeShift/>
+    </Compare>
+    <Synchronize>
+        <Variant>Custom</Variant>
+        <CustomDirections>
+            <LeftOnly>right</LeftOnly>
+            <RightOnly>none</RightOnly>
+            <LeftNewer>right</LeftNewer>
+            <RightNewer>right</RightNewer>
+            <Different>right</Different>
+            <Conflict>right</Conflict>
+        </CustomDirections>
+        <DetectMovedFiles>false</DetectMovedFiles>
+        <DeletionPolicy>Permanent</DeletionPolicy>
+        <VersioningFolder Style="Replace"/>
+    </Synchronize>
+    <Filter>
+        <Include>
+            <Item>*</Item>
+        </Include>
+        <Exclude>
+            <Item>*/.Trash-*/</Item>
+            <Item>*/.recycle/</Item>
+            <Item>/.gitattributes</Item>
+            <Item>/.gitignore</Item>
+            <Item>/.git/</Item>
+            <Item>*/.vscode/</Item>
+            <Item>/devdir2depdiv.ffs_gui</Item>
+            <Item>/nginx/</Item>
+            <Item>/package-lock.json</Item>
+            <Item>/package.json</Item>
+            <Item>/node_modules/</Item>
+            <Item>*.ffs_gui | *.ffs_batch</Item>
+        </Exclude>
+        <SizeMin Unit="None">0</SizeMin>
+        <SizeMax Unit="None">0</SizeMax>
+        <TimeSpan Type="None">0</TimeSpan>
+    </Filter>
+    <FolderPairs>
+        <Pair>
+            <Left>/home/ryumada/development/codeigniter3-authentication-typography/</Left>
+            <Right>/var/www/ci3-auth-typography/</Right>
+        </Pair>
+    </FolderPairs>
+    <Errors Ignore="false" Retry="0" Delay="5"/>
+    <PostSyncCommand Condition="Completion"/>
+    <LogFolder/>
+    <EmailNotification Condition="Always"/>
+    <Batch>
+        <ProgressDialog Minimized="true" AutoClose="true"/>
+        <ErrorDialog>Show</ErrorDialog>
+        <PostSyncAction>None</PostSyncAction>
+    </Batch>
+</FreeFileSync>

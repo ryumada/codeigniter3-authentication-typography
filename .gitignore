@@ -30,3 +30,9 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 *.sublime-project
 /tests/tests/
 /tests/results/
+
+# node modules
+node_modules
+
+# Linux directory config file
+.directory
