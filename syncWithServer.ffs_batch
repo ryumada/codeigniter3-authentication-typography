@@ -1,12 +1,20 @@
 <?xml encoding="utf-8"?>
-<FreeFileSync XmlType="GUI" XmlFormat="17">
+<FreeFileSync XmlType="BATCH" XmlFormat="17">
     <Compare>
         <Variant>Content</Variant>
         <Symlinks>Exclude</Symlinks>
         <IgnoreTimeShift/>
     </Compare>
     <Synchronize>
-        <Variant>Mirror</Variant>
+        <Variant>Custom</Variant>
+        <CustomDirections>
+            <LeftOnly>right</LeftOnly>
+            <RightOnly>none</RightOnly>
+            <LeftNewer>right</LeftNewer>
+            <RightNewer>right</RightNewer>
+            <Different>right</Different>
+            <Conflict>right</Conflict>
+        </CustomDirections>
         <DetectMovedFiles>false</DetectMovedFiles>
         <DeletionPolicy>Permanent</DeletionPolicy>
         <VersioningFolder Style="Replace"/>
@@ -43,7 +51,9 @@
     <PostSyncCommand Condition="Completion"/>
     <LogFolder/>
     <EmailNotification Condition="Always"/>
-    <Gui>
-        <GridViewType>Difference</GridViewType>
-    </Gui>
+    <Batch>
+        <ProgressDialog Minimized="true" AutoClose="true"/>
+        <ErrorDialog>Show</ErrorDialog>
+        <PostSyncAction>None</PostSyncAction>
+    </Batch>
 </FreeFileSync>
