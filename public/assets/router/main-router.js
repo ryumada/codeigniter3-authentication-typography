@@ -12,9 +12,14 @@ const MAINCONTENTSCRIPTCLASS = 'mainContentScript';
 const MAINCONTENTSCRIPTLIST = 'scriptList';
 
 document.body.addEventListener('click', event => {
+	if (typeof event.target.className.match === 'undefined'){
+		return true;	
+	}
+
 	if (!event.target.className.match(`${ANCHORMAINROUTERCLASS}`)) {
 		return true;
 	}
+
 	event.preventDefault();
 
 	const element = event.target;
