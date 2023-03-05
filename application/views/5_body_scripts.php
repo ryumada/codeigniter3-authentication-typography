@@ -54,7 +54,7 @@
 	 */
 	const showToast = ({
 		icon = 'error',
-		title = 'Not Found',
+		title = 'Error?!',
 		msg = ""
 	}) => {
 		try {
