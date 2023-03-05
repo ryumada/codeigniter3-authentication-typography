@@ -73,6 +73,9 @@ sudo systemctl restart nginx
 7. Run this SQL to create the database.
 [ci3-ionauth-ckeditor](/sql/ci3-ionauth-ckeditor.sql)
 
+8. Set permission on these folders to be writable by the server:
+    - public/files/ckeditor/images
+
 > For deployment, please read these:
 > - https://codeigniter.com/userguide3/general/security.html
 > - https://codeigniter.com/userguide3/installation/index.html
